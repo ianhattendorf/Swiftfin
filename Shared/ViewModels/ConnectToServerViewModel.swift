@@ -45,6 +45,29 @@ final class ConnectToServerViewModel: ViewModel {
         return message
     }
 
+    func loadAndSaveCertificate(uri: String, passphrase: String) {
+        guard !uri.isEmpty && !passphrase.isEmpty else {
+            return
+        }
+
+        do {
+            guard let identity = try CertificateManager.loadP12(uri: uri, passphrase: passphrase) else {
+                logger.info("Failed to load P12", tag: "loadAndSaveCertificate")
+                return
+            }
+            let addStatus = CertificateManager.addIdentityToStore(identity: identity, labelPrefix: "jellyfin")
+            if addStatus == errSecSuccess {
+                logger.debug("Cert added successfully", tag: "loadAndSaveCertificate")
+            } else if addStatus == errSecDuplicateItem {
+                logger.debug("Cert or key already exists", tag: "loadAndSaveCertificate")
+            } else {
+                logger.warning("Cert unknown status: \(addStatus)", tag: "loadAndSaveCertificate")
+            }
+        } catch {
+            logger.error("Failed to load identity: \(error)", tag: "loadAndSaveCertificate")
+        }
+    }
+
     func connectToServer(uri: String, redirectCount: Int = 0) {
 
         let uri = uri.trimmingCharacters(in: .whitespacesAndNewlines)

@@ -172,6 +172,10 @@
 		6334175B287DDFB9000603CE /* QuickConnectSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6334175A287DDFB9000603CE /* QuickConnectSettingsView.swift */; };
 		6334175D287DE0D0000603CE /* QuickConnectSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6334175C287DE0D0000603CE /* QuickConnectSettingsViewModel.swift */; };
 		AE8C3159265D6F90008AA076 /* bitrates.json in Resources */ = {isa = PBXBuildFile; fileRef = AE8C3158265D6F90008AA076 /* bitrates.json */; };
+		BF826C3B28F66F28003EE7EC /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF826C3A28F66F28003EE7EC /* AuthDelegate.swift */; };
+		BF826C3C28F66F28003EE7EC /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF826C3A28F66F28003EE7EC /* AuthDelegate.swift */; };
+		BF826C3E28F67007003EE7EC /* CertificateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF826C3D28F67007003EE7EC /* CertificateManager.swift */; };
+		BF826C3F28F67007003EE7EC /* CertificateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF826C3D28F67007003EE7EC /* CertificateManager.swift */; };
 		C400DB6A27FE894F007B65FE /* LiveTVChannelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400DB6927FE894F007B65FE /* LiveTVChannelsView.swift */; };
 		C400DB6B27FE8C97007B65FE /* LiveTVChannelItemElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E52304272CE68800654268 /* LiveTVChannelItemElement.swift */; };
 		C400DB6D27FE8E65007B65FE /* LiveTVChannelItemWideElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C400DB6C27FE8E65007B65FE /* LiveTVChannelItemWideElement.swift */; };
@@ -735,6 +739,8 @@
 		6334175C287DE0D0000603CE /* QuickConnectSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickConnectSettingsViewModel.swift; sourceTree = "<group>"; };
 		637FCAF3287B5B2600C0A353 /* UDPBroadcast.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UDPBroadcast.xcframework; path = Carthage/Build/UDPBroadcast.xcframework; sourceTree = "<group>"; };
 		AE8C3158265D6F90008AA076 /* bitrates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = bitrates.json; sourceTree = "<group>"; };
+		BF826C3A28F66F28003EE7EC /* AuthDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDelegate.swift; sourceTree = "<group>"; };
+		BF826C3D28F67007003EE7EC /* CertificateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateManager.swift; sourceTree = "<group>"; };
 		C400DB6927FE894F007B65FE /* LiveTVChannelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTVChannelsView.swift; sourceTree = "<group>"; };
 		C400DB6C27FE8E65007B65FE /* LiveTVChannelItemWideElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTVChannelItemWideElement.swift; sourceTree = "<group>"; };
 		C40CD924271F8D1E000FB198 /* ItemTypeLibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypeLibraryViewModel.swift; sourceTree = "<group>"; };
@@ -1227,6 +1233,7 @@
 			isa = PBXGroup;
 			children = (
 				E1D4BF802719D22800A11E64 /* AppAppearance.swift */,
+				BF826C3A28F66F28003EE7EC /* AuthDelegate.swift */,
 				E1D4BF862719D27100A11E64 /* Bitrates.swift */,
 				53192D5C265AA78A008A4215 /* DeviceProfileBuilder.swift */,
 				E17FB55128C119D400311DFE /* Displayable.swift */,
@@ -1586,6 +1593,7 @@
 		62EC352A26766657000E9F2D /* Singleton */ = {
 			isa = PBXGroup;
 			children = (
+				BF826C3D28F67007003EE7EC /* CertificateManager.swift */,
 				53649AB0269CFB1900A2D8B7 /* LogManager.swift */,
 				62EC352E267666A5000E9F2D /* SessionManager.swift */,
 				E13DD3EE27178F87009D4DAF /* SwiftfinNotificationCenter.swift */,
@@ -2504,6 +2512,7 @@
 				53ABFDE9267974EF00886593 /* HomeViewModel.swift in Sources */,
 				E13DD3F027178F87009D4DAF /* SwiftfinNotificationCenter.swift in Sources */,
 				E1A16CA1288A7CFD00EA4679 /* AboutViewCard.swift in Sources */,
+				BF826C3F28F67007003EE7EC /* CertificateManager.swift in Sources */,
 				E1937A3F288F0D3D00CB80AA /* UIScreenExtensions.swift in Sources */,
 				531690E7267ABD79005D8AB9 /* HomeView.swift in Sources */,
 				E17FB55328C119D400311DFE /* Displayable.swift in Sources */,
@@ -2538,6 +2547,7 @@
 				E12B835F28C07D8500878399 /* LibraryParent.swift in Sources */,
 				E111D8FA28D0400900400001 /* PagingLibraryView.swift in Sources */,
 				E18E021A2887492B0022598C /* AppIcon.swift in Sources */,
+				BF826C3C28F66F28003EE7EC /* AuthDelegate.swift in Sources */,
 				E10EAA50277BBCC4000269ED /* CGSizeExtensions.swift in Sources */,
 				E126F742278A656C00A522BF /* ServerStreamType.swift in Sources */,
 				E1D3043328D175CE00587289 /* StaticLibraryViewModel.swift in Sources */,
@@ -2857,6 +2867,7 @@
 				E18E01E3288747230022598C /* CompactPortraitScrollView.swift in Sources */,
 				62C29EA626D1036A00C1D2E7 /* HomeCoordinator.swift in Sources */,
 				531AC8BF26750DE20091C7EB /* ImageView.swift in Sources */,
+				BF826C3E28F67007003EE7EC /* CertificateManager.swift in Sources */,
 				C4BE07762725EBEA003F4AD1 /* LiveTVProgramsViewModel.swift in Sources */,
 				E13DD3E927177ED6009D4DAF /* ServerListCoordinator.swift in Sources */,
 				E1CCF12E28ABF989006CAC9E /* PosterType.swift in Sources */,
@@ -2876,6 +2887,7 @@
 				C4E5598928124C10003DECA5 /* LiveTVChannelItemElement.swift in Sources */,
 				E184C160288C5C08000B25BA /* RequestBuilderExtensions.swift in Sources */,
 				E1FE69AA28C29CC20021BC93 /* LandscapePosterProgressBar.swift in Sources */,
+				BF826C3B28F66F28003EE7EC /* AuthDelegate.swift in Sources */,
 				E1C925F72887504B002A7A66 /* PanDirectionGestureRecognizer.swift in Sources */,
 				E18E01E9288747230022598C /* SeriesItemView.swift in Sources */,
 				E18E023A288749540022598C /* UIScrollViewExtensions.swift in Sources */,

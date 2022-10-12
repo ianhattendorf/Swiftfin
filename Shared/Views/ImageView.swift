@@ -77,11 +77,37 @@ struct ImageView<ImageType: View, PlaceholderView: View, FailureView: View>: Vie
                     }
                 }
             }
-            .pipeline(ImagePipeline(configuration: .withDataCache))
+            .pipeline(ImagePipeline(configuration: ImageView<ImageType, PlaceholderView, FailureView>.withDataCache()))
             .id(currentSource)
         } else {
             failure()
         }
+    }
+
+    static func withDataCache(
+        name: String = "com.github.kean.Nuke.DataCache",
+        sizeLimit: Int? = nil
+    ) -> ImagePipeline.Configuration {
+        let dataLoader: DataLoader = {
+            let config = URLSessionConfiguration.default
+            config.urlCache = nil
+            let _dataLoader = DataLoader(configuration: config)
+            // TODO: expensive for each image?
+            let identity = CertificateManager.getIdentityFromStore(labelPrefix: "jellyfin")
+            _dataLoader.delegate = AuthDelegate(identity: identity)
+            return _dataLoader
+        }()
+
+        var config = ImagePipeline.Configuration()
+        config.dataLoader = dataLoader
+
+        let dataCache = try? DataCache(name: name)
+        if let sizeLimit = sizeLimit {
+            dataCache?.sizeLimit = sizeLimit
+        }
+        config.dataCache = dataCache
+
+        return config
     }
 }
 

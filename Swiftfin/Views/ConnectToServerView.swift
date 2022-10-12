@@ -16,6 +16,10 @@ struct ConnectToServerView: View {
     var viewModel: ConnectToServerViewModel
     @State
     var uri = ""
+    @State
+    var certUri = ""
+    @State
+    var certPass = ""
 
     @Default(.defaultHTTPScheme)
     var defaultHTTPScheme
@@ -32,6 +36,16 @@ struct ConnectToServerView: View {
                             uri = "\(defaultHTTPScheme.rawValue)://"
                         }
                     }
+                TextField("Cert URL", text: $certUri)
+                    .disableAutocorrection(true)
+                    .autocapitalization(.none)
+                    .keyboardType(.URL)
+                    .onAppear {
+                        if certUri == "" {
+                            certUri = "\(defaultHTTPScheme.rawValue)://"
+                        }
+                    }
+                SecureField("Cert Passphrase", text: $certPass)
 
                 if viewModel.isLoading {
                     Button(role: .destructive) {
@@ -41,6 +55,7 @@ struct ConnectToServerView: View {
                     }
                 } else {
                     Button {
+                        viewModel.loadAndSaveCertificate(uri: certUri, passphrase: certPass)
                         viewModel.connectToServer(uri: uri)
                     } label: {
                         HStack {
