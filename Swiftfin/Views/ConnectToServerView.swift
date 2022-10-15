@@ -36,6 +36,7 @@ struct ConnectToServerView: View {
                             uri = "\(defaultHTTPScheme.rawValue)://"
                         }
                     }
+                // TODO: prompt first time server requests a cert if they would like to add
                 TextField("Cert URL", text: $certUri)
                     .disableAutocorrection(true)
                     .autocapitalization(.none)
@@ -55,7 +56,9 @@ struct ConnectToServerView: View {
                     }
                 } else {
                     Button {
-                        viewModel.loadAndSaveCertificate(uri: certUri, passphrase: certPass)
+                        if let hostname = URLComponents(string: uri)?.host {
+                            viewModel.loadAndSaveCertificate(uri: certUri, passphrase: certPass, labelPrefix: hostname)
+                        }
                         viewModel.connectToServer(uri: uri)
                     } label: {
                         HStack {

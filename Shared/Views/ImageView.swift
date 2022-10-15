@@ -66,6 +66,12 @@ struct ImageView<ImageType: View, PlaceholderView: View, FailureView: View>: Vie
 
     var body: some View {
         if let currentSource = sources.first {
+            // TODO: expensive for each image?
+            let authDelegate: URLSessionDelegate? = {
+                guard let hostname = currentSource.url?.host else { return nil }
+                guard let identity = CertificateManager.getIdentityFromStore(labelPrefix: hostname) else { return nil }
+                return AuthDelegate(identity: identity)
+            }()
             LazyImage(url: currentSource.url) { state in
                 if state.isLoading {
                     _placeholder(currentSource)
@@ -77,7 +83,10 @@ struct ImageView<ImageType: View, PlaceholderView: View, FailureView: View>: Vie
                     }
                 }
             }
-            .pipeline(ImagePipeline(configuration: ImageView<ImageType, PlaceholderView, FailureView>.withDataCache()))
+            .pipeline(ImagePipeline(
+                configuration: ImageView<ImageType, PlaceholderView, FailureView>
+                    .withDataCache(delegate: authDelegate)
+            ))
             .id(currentSource)
         } else {
             failure()
@@ -85,6 +94,7 @@ struct ImageView<ImageType: View, PlaceholderView: View, FailureView: View>: Vie
     }
 
     static func withDataCache(
+        delegate: URLSessionDelegate? = nil,
         name: String = "com.github.kean.Nuke.DataCache",
         sizeLimit: Int? = nil
     ) -> ImagePipeline.Configuration {
@@ -92,9 +102,7 @@ struct ImageView<ImageType: View, PlaceholderView: View, FailureView: View>: Vie
             let config = URLSessionConfiguration.default
             config.urlCache = nil
             let _dataLoader = DataLoader(configuration: config)
-            // TODO: expensive for each image?
-            let identity = CertificateManager.getIdentityFromStore(labelPrefix: "jellyfin")
-            _dataLoader.delegate = AuthDelegate(identity: identity)
+            _dataLoader.delegate = delegate
             return _dataLoader
         }()
 

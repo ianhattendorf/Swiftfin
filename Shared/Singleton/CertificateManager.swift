@@ -41,6 +41,7 @@ class CertificateManager {
 
     // Returns errSecSuccess or errSecDuplicateItem on success
     public static func addIdentityToStore(identity: SecIdentity, labelPrefix: String) -> OSStatus {
+        LogManager.service().debug("Adding cert with prefix: \(labelPrefix)", tag: "certificateManager:addIdentityToStore")
         var cert: SecCertificate?
         var status = SecIdentityCopyCertificate(identity, &cert)
         guard status == errSecSuccess else {
@@ -70,6 +71,24 @@ class CertificateManager {
             return status
         }
 
+        // Update label of existing item. Doesn't currently support the same cert for multiple hosts.
+        // TODO: instead of labels, store id to cert in coredata: kSecAttrCertificateType, kSecAttrIssuer, kSecAttrSerialNumber
+        if status == errSecDuplicateItem {
+            let updatequery: [String: Any] = [
+                kSecClass as String: kSecClassCertificate,
+                kSecValueRef as String: cert as Any,
+            ]
+            let updateattributes: [String: String] = [
+                kSecAttrLabel as String: "\(labelPrefix)_cert",
+            ]
+            status = SecItemUpdate(updatequery as CFDictionary, updateattributes as CFDictionary)
+            guard status == errSecSuccess else {
+                let statusString = SecCopyErrorMessageString(status, nil) ?? "Unknown" as CFString
+                LogManager.service().warning("Invalid status3.1: \(status) \(statusString)", tag: "certificateManager:addIdentityToStore")
+                return status
+            }
+        }
+
         addquery = [
             kSecClass as String: kSecClassKey,
             kSecValueRef as String: privateKey as Any,
@@ -83,11 +102,29 @@ class CertificateManager {
             return status
         }
 
+        // Update label of existing item
+        if status == errSecDuplicateItem {
+            let updatequery: [String: Any] = [
+                kSecClass as String: kSecClassKey,
+                kSecValueRef as String: privateKey as Any,
+            ]
+            let updateattributes: [String: String] = [
+                kSecAttrLabel as String: "\(labelPrefix)_key",
+            ]
+            status = SecItemUpdate(updatequery as CFDictionary, updateattributes as CFDictionary)
+            guard status == errSecSuccess else {
+                let statusString = SecCopyErrorMessageString(status, nil) ?? "Unknown" as CFString
+                LogManager.service().warning("Invalid status4.1: \(status) \(statusString)", tag: "certificateManager:addIdentityToStore")
+                return status
+            }
+        }
+
         LogManager.service().debug("Success", tag: "certificateManager:addIdentityToStore")
         return status
     }
 
     public static func getIdentityFromStore(labelPrefix: String) -> SecIdentity? {
+        LogManager.service().trace("Loading cert with prefix: \(labelPrefix)", tag: "certificateManager:getIdentityFromStore")
         let getquery: [String: Any] = [
             kSecClass as String: kSecClassIdentity,
             kSecAttrLabel as String: "\(labelPrefix)_cert",

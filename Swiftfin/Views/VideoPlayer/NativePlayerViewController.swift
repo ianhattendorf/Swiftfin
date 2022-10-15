@@ -41,10 +41,14 @@ class NativePlayerViewController: AVPlayerViewController {
         }()
         LogManager.service().debug("streamUrl=\(streamUrl)")
 
-        // TODO: label per server (host)
-        let identity = CertificateManager.getIdentityFromStore(labelPrefix: "jellyfin")
-        let authDelegate = AuthDelegate(identity: identity)
-        resourceDelegate = StreamResourceLoaderDelegate(authDelegate: authDelegate)
+        if let hostname = streamUrl.host, let identity = CertificateManager.getIdentityFromStore(labelPrefix: hostname) {
+            let authDelegate = AuthDelegate(identity: identity)
+            resourceDelegate = StreamResourceLoaderDelegate(authDelegate: authDelegate)
+            LogManager.service().debug("using auth identity for host=\(hostname)")
+        } else {
+            resourceDelegate = StreamResourceLoaderDelegate(authDelegate: nil)
+            LogManager.service().debug("no auth identity for host=\(String(describing: streamUrl.host))")
+        }
 
         let asset = AVURLAsset(url: StreamResourceLoaderDelegate.transformUrlScheme(url: streamUrl))
         asset.resourceLoader.setDelegate(resourceDelegate, queue: DispatchQueue.main)

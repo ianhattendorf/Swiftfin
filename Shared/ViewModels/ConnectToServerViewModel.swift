@@ -45,7 +45,7 @@ final class ConnectToServerViewModel: ViewModel {
         return message
     }
 
-    func loadAndSaveCertificate(uri: String, passphrase: String) {
+    func loadAndSaveCertificate(uri: String, passphrase: String, labelPrefix: String) {
         guard !uri.isEmpty && !passphrase.isEmpty else {
             return
         }
@@ -55,7 +55,7 @@ final class ConnectToServerViewModel: ViewModel {
                 logger.info("Failed to load P12", tag: "loadAndSaveCertificate")
                 return
             }
-            let addStatus = CertificateManager.addIdentityToStore(identity: identity, labelPrefix: "jellyfin")
+            let addStatus = CertificateManager.addIdentityToStore(identity: identity, labelPrefix: labelPrefix)
             if addStatus == errSecSuccess {
                 logger.debug("Cert added successfully", tag: "loadAndSaveCertificate")
             } else if addStatus == errSecDuplicateItem {
