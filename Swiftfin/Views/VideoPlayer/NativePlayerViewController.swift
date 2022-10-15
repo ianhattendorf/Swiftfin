@@ -8,11 +8,11 @@
 
 import AVKit
 import Combine
+import Defaults
 import JellyfinAPI
 import UIKit
 
 class NativePlayerViewController: AVPlayerViewController {
-
     let viewModel: VideoPlayerViewModel
 
     var timeObserverToken: Any?
@@ -20,6 +20,9 @@ class NativePlayerViewController: AVPlayerViewController {
     var lastProgressTicks: Int64 = 0
 
     private var cancellables = Set<AnyCancellable>()
+
+    // Strong reference to delegate required
+    private var resourceDelegate: StreamResourceLoaderDelegate?
 
     init(viewModel: VideoPlayerViewModel) {
 
@@ -29,11 +32,24 @@ class NativePlayerViewController: AVPlayerViewController {
 
         let player: AVPlayer
 
-        if let transcodedStreamURL = viewModel.transcodedStreamURL {
-            player = AVPlayer(url: transcodedStreamURL)
-        } else {
-            player = AVPlayer(url: viewModel.hlsStreamURL)
-        }
+        let streamUrl = {
+            if Defaults[.Experimental.forceDirectPlay] {
+                // TODO: Only direct stream (with supported formats) works with custom resource loader
+                return viewModel.directStreamURL
+            }
+            return viewModel.transcodedStreamURL ?? viewModel.hlsStreamURL
+        }()
+        LogManager.service().debug("streamUrl=\(streamUrl)")
+
+        // TODO: label per server (host)
+        let identity = CertificateManager.getIdentityFromStore(labelPrefix: "jellyfin")
+        let authDelegate = AuthDelegate(identity: identity)
+        resourceDelegate = StreamResourceLoaderDelegate(authDelegate: authDelegate)
+
+        let asset = AVURLAsset(url: StreamResourceLoaderDelegate.transformUrlScheme(url: streamUrl))
+        asset.resourceLoader.setDelegate(resourceDelegate, queue: DispatchQueue.main)
+        let playerItem = AVPlayerItem(asset: asset)
+        player = AVPlayer(playerItem: playerItem)
 
         player.appliesMediaSelectionCriteriaAutomatically = false
 

@@ -172,6 +172,8 @@
 		6334175B287DDFB9000603CE /* QuickConnectSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6334175A287DDFB9000603CE /* QuickConnectSettingsView.swift */; };
 		6334175D287DE0D0000603CE /* QuickConnectSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6334175C287DE0D0000603CE /* QuickConnectSettingsViewModel.swift */; };
 		AE8C3159265D6F90008AA076 /* bitrates.json in Resources */ = {isa = PBXBuildFile; fileRef = AE8C3158265D6F90008AA076 /* bitrates.json */; };
+		BF07583F28FA2F6A0024B183 /* StreamResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07583E28FA2F6A0024B183 /* StreamResourceLoader.swift */; };
+		BF07584028FA2F6A0024B183 /* StreamResourceLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF07583E28FA2F6A0024B183 /* StreamResourceLoader.swift */; };
 		BF826C3B28F66F28003EE7EC /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF826C3A28F66F28003EE7EC /* AuthDelegate.swift */; };
 		BF826C3C28F66F28003EE7EC /* AuthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF826C3A28F66F28003EE7EC /* AuthDelegate.swift */; };
 		BF826C3E28F67007003EE7EC /* CertificateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF826C3D28F67007003EE7EC /* CertificateManager.swift */; };
@@ -739,6 +741,7 @@
 		6334175C287DE0D0000603CE /* QuickConnectSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickConnectSettingsViewModel.swift; sourceTree = "<group>"; };
 		637FCAF3287B5B2600C0A353 /* UDPBroadcast.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = UDPBroadcast.xcframework; path = Carthage/Build/UDPBroadcast.xcframework; sourceTree = "<group>"; };
 		AE8C3158265D6F90008AA076 /* bitrates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = bitrates.json; sourceTree = "<group>"; };
+		BF07583E28FA2F6A0024B183 /* StreamResourceLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamResourceLoader.swift; sourceTree = "<group>"; };
 		BF826C3A28F66F28003EE7EC /* AuthDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDelegate.swift; sourceTree = "<group>"; };
 		BF826C3D28F67007003EE7EC /* CertificateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateManager.swift; sourceTree = "<group>"; };
 		C400DB6927FE894F007B65FE /* LiveTVChannelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTVChannelsView.swift; sourceTree = "<group>"; };
@@ -1250,6 +1253,7 @@
 				E1CCF12D28ABF989006CAC9E /* PosterType.swift */,
 				E18CE0B328A22EDA0092E7F1 /* RepeatingTimer.swift */,
 				E17FB54E28C1197700311DFE /* SelectorType.swift */,
+				BF07583E28FA2F6A0024B183 /* StreamResourceLoader.swift */,
 				E148128A28C15526003B8787 /* SortBy.swift */,
 				5D1603FB278A3D5700D22B99 /* SubtitleSize.swift */,
 				E1D4BF832719D25A00A11E64 /* TrackLanguage.swift */,
@@ -2609,6 +2613,7 @@
 				E154677A289AF48200087E35 /* CollectionItemContentView.swift in Sources */,
 				E148128C28C15526003B8787 /* SortBy.swift in Sources */,
 				E1C812D1277AE4E300918266 /* tvOSVideoPlayerCoordinator.swift in Sources */,
+				BF07584028FA2F6A0024B183 /* StreamResourceLoader.swift in Sources */,
 				E1A2C156279A7D5A005EC829 /* UIApplicationExtensions.swift in Sources */,
 				E193D53D27193F9700900D82 /* UserSignInCoordinator.swift in Sources */,
 				C4BE07862728446F003F4AD1 /* LiveTVChannelsViewModel.swift in Sources */,
@@ -2835,6 +2840,7 @@
 				E148128B28C15526003B8787 /* SortBy.swift in Sources */,
 				5D1603FC278A3D5800D22B99 /* SubtitleSize.swift in Sources */,
 				E1F0204E26CCCA74001C1C3B /* VideoPlayerJumpLength.swift in Sources */,
+				BF07583F28FA2F6A0024B183 /* StreamResourceLoader.swift in Sources */,
 				E1FA891E289A305D00176FEB /* iPadOSCollectionItemContentView.swift in Sources */,
 				E18CE0B928A2322D0092E7F1 /* QuickConnectCoordinator.swift in Sources */,
 				E12CC1AE28D0FAEA00678D5D /* NextUpLibraryViewModel.swift in Sources */,
