@@ -36,17 +36,24 @@ struct ConnectToServerView: View {
                             uri = "\(defaultHTTPScheme.rawValue)://"
                         }
                     }
-                // TODO: prompt first time server requests a cert if they would like to add
-                TextField("Cert URL", text: $certUri)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.none)
-                    .keyboardType(.URL)
-                    .onAppear {
-                        if certUri == "" {
-                            certUri = "\(defaultHTTPScheme.rawValue)://"
+
+                if viewModel.networkErrorEncountered {
+                    TextField("TLS Cert URL", text: $certUri)
+                        .disableAutocorrection(true)
+                        .autocapitalization(.none)
+                        .keyboardType(.URL)
+                        .onAppear {
+                            if certUri == "" {
+                                certUri = "\(defaultHTTPScheme.rawValue)://"
+                            }
                         }
-                    }
-                SecureField("Cert Passphrase", text: $certPass)
+                    SecureField("TLS Cert Passphrase", text: $certPass)
+                        .onAppear {
+                            if certPass == "" {
+                                certPass = ""
+                            }
+                        }
+                }
 
                 if viewModel.isLoading {
                     Button(role: .destructive) {
@@ -56,7 +63,7 @@ struct ConnectToServerView: View {
                     }
                 } else {
                     Button {
-                        if let hostname = URLComponents(string: uri)?.host {
+                        if viewModel.networkErrorEncountered, let hostname = URLComponents(string: uri)?.host {
                             viewModel.loadAndSaveCertificate(uri: certUri, passphrase: certPass, labelPrefix: hostname)
                         }
                         viewModel.connectToServer(uri: uri)

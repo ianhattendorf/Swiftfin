@@ -33,6 +33,8 @@ final class ConnectToServerViewModel: ViewModel {
     @Published
     var addServerURIPayload: AddServerURIPayload?
     var backAddServerURIPayload: AddServerURIPayload?
+    @Published
+    var networkErrorEncountered = false
 
     private let discovery = ServerDiscovery()
 
@@ -99,6 +101,11 @@ final class ConnectToServerViewModel: ViewModel {
                                         )
                                 }
                             } else {
+                                if case .error(-1, _, _, _) = errorResponse {
+                                    // Network error, possibly client cert error.
+                                    // This is the best we can do without additional jellfyin-swift-sdk support
+                                    self.networkErrorEncountered = true
+                                }
                                 self.handleAPIRequestError(completion: completion)
                             }
                         }
