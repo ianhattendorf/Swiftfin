@@ -52,6 +52,21 @@ struct ServerDetailView: View {
                     Text(viewModel.server.os)
                         .foregroundColor(.secondary)
                 }
+
+                if let clientCert = viewModel.cert {
+                    List {
+                        ForEach(0 ..< 1) { _ in
+                            HStack {
+                                Text("TLS Client Certificate")
+                                Spacer()
+                                Text(String(describing: clientCert))
+                                    .foregroundColor(.secondary)
+                            }
+                        }.onDelete { _ in
+                            viewModel.removeClientCert()
+                        }
+                    }
+                }
             }
         }
     }

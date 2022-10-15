@@ -14,8 +14,23 @@ class ServerDetailViewModel: ViewModel {
     @Published
     var server: SwiftfinStore.State.Server
 
+    @Published
+    var cert: SecCertificate?
+    var hostname: String?
+
     init(server: SwiftfinStore.State.Server) {
         self.server = server
+        if let hostname = URLComponents(string: server.currentURI)?.host,
+           let identity = CertificateManager.getIdentityFromStore(labelPrefix: hostname)
+        {
+            self.cert = CertificateManager.getCertInfoFromIdentity(identity: identity)
+            self.hostname = hostname
+        }
+    }
+
+    func removeClientCert() {
+        guard let hostname = self.hostname else { return }
+        _ = CertificateManager.removeIdentityFromStore(labelPrefix: hostname)
     }
 
     func setServerCurrentURI(uri: String) {
