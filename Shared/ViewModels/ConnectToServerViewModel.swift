@@ -47,13 +47,13 @@ final class ConnectToServerViewModel: ViewModel {
         return message
     }
 
-    func loadAndSaveCertificate(uri: String, passphrase: String, labelPrefix: String) {
+    func loadAndSaveCertificate(uri: String, passphrase: String, labelPrefix: String) async {
         guard !uri.isEmpty && !passphrase.isEmpty else {
             return
         }
 
         do {
-            guard let identity = try CertificateManager.loadP12(uri: uri, passphrase: passphrase) else {
+            guard let identity = try await CertificateManager.loadP12(uri: uri, passphrase: passphrase) else {
                 logger.info("Failed to load P12", tag: "loadAndSaveCertificate")
                 return
             }

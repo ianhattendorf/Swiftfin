@@ -9,8 +9,9 @@
 import Foundation
 
 class CertificateManager {
-    public static func loadP12(uri: String, passphrase: String) throws -> SecIdentity? {
-        let data = try Data(contentsOf: URL(string: uri)!)
+    public static func loadP12(uri: String, passphrase: String) async throws -> SecIdentity? {
+        guard let uri = URL(string: uri) else { return nil }
+        let (data, _) = try await URLSession.shared.data(from: uri)
         let options = [kSecImportExportPassphrase as String: passphrase]
         var rawItems: CFArray?
         let status = SecPKCS12Import(data as CFData, options as CFDictionary, &rawItems)

@@ -63,10 +63,12 @@ struct ConnectToServerView: View {
                     }
                 } else {
                     Button {
-                        if viewModel.networkErrorEncountered, let hostname = URLComponents(string: uri)?.host {
-                            viewModel.loadAndSaveCertificate(uri: certUri, passphrase: certPass, labelPrefix: hostname)
+                        Task {
+                            if viewModel.networkErrorEncountered, let hostname = URLComponents(string: uri)?.host {
+                                await viewModel.loadAndSaveCertificate(uri: certUri, passphrase: certPass, labelPrefix: hostname)
+                            }
+                            viewModel.connectToServer(uri: uri)
                         }
-                        viewModel.connectToServer(uri: uri)
                     } label: {
                         HStack {
                             L10n.connect.text
